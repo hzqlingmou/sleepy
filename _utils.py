@@ -2,9 +2,10 @@
 # 存放 utils.py 和 env.py 都使用到的函数
 
 from pathlib import Path
+from typing import Optional
 
 
-def tobool(string: str, throw: bool = False) -> bool | None:
+def tobool(string: str, throw: bool = False) -> Optional[bool]:
     '''
     将形似 `true`, `1`, `yes` 之类的内容转换为布尔值
 

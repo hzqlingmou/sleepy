@@ -1,6 +1,8 @@
 # coding: utf-8
 
 import os
+from typing import Optional
+
 import pytz
 import json
 import json5
@@ -44,7 +46,7 @@ class data:
 
     # --- Storage functions
 
-    def load(self, ret: bool = False, preload: dict = {}, error_count: int = 5) -> dict | None:
+    def load(self, ret: bool = False, preload: dict = {}, error_count: int = 5) -> Optional[dict]:
         '''
         加载状态
 
@@ -180,7 +182,7 @@ class data:
             self.data['metrics']['year_is'] = year_is
             self.data['metrics']['year'] = {}
 
-    def record_metrics(self, path: str | None = None) -> None:
+    def record_metrics(self, path: Optional[str] = None) -> None:
         '''
         记录调用
 

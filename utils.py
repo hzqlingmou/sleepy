@@ -1,6 +1,8 @@
 # coding: utf-8
 from datetime import datetime
 import json
+from typing import Union
+
 from flask import make_response, Response
 from pathlib import Path
 import os
@@ -42,7 +44,7 @@ def format_dict(dic) -> Response:
     return response
 
 
-def reterr(code: int | str, message: str) -> Response:
+def reterr(code: Union[int, str], message: str) -> Response:
     '''
     返回错误信息 Response
 
@@ -80,7 +82,7 @@ def exception(msg: str) -> SleepyException:
     raise SleepyException(msg)
 
 
-def list_dir(path: str | Path, include_subfolder: bool = True, strict_exist: bool = False, ext: str = '') -> list:
+def list_dir(path: Union[str, Path], include_subfolder: bool = True, strict_exist: bool = False, ext: str = '') -> list:
     '''
     列出目录下的**文件**
 
