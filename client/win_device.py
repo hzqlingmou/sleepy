@@ -31,17 +31,19 @@ from pywintypes import error as pywinerror  # type: ignore
 # 服务地址, 末尾同样不带 /
 SERVER: str = 'http://localhost:9010'
 # 密钥
-SECRET: str = 'wyf9test'
+SECRET: str = 'aaa'
 # 设备标识符，唯一 (它也会被包含在 api 返回中, 不要包含敏感数据)
 DEVICE_ID: str = 'device-1'
 # 前台显示名称
-DEVICE_SHOW_NAME: str = 'MyDevice1'
+DEVICE_SHOW_NAME: str = '逸燧の小电脑'
 # 检查间隔，以秒为单位
 CHECK_INTERVAL: int = 5
 # 是否忽略重复请求，即窗口未改变时不发送请求
 BYPASS_SAME_REQUEST: bool = True
 # 控制台输出所用编码，避免编码出错，可选 utf-8 或 gb18030
 ENCODING: str = 'gb18030'
+# 设置静态窗口名称（''则为动态）
+STATIC_WINDOW_NAME: str = '开机✅'
 # 当窗口标题为其中任意一项时将不更新
 SKIPPED_NAMES: list = [
     '',  # 空字符串
@@ -60,11 +62,11 @@ MOUSE_IDLE_TIME: int = 15
 # 鼠标移动检测的最小距离 (像素)
 MOUSE_MOVE_THRESHOLD: int = 10
 # 控制日志是否显示更多信息
-DEBUG: bool = False
+DEBUG: bool = True
 # 代理地址 (<http/socks>://host:port), 设置为空字符串禁用
 PROXY: str = ''
 # 是否启用媒体信息获取
-MEDIA_INFO_ENABLED: bool = True
+MEDIA_INFO_ENABLED: bool = False
 # 媒体信息显示模式: 'prefix' - 作为前缀添加到当前窗口名称, 'standalone' - 使用独立设备
 MEDIA_INFO_MODE: str = 'standalone'
 # 独立设备模式下的设备ID (仅当 MEDIA_INFO_MODE = 'standalone' 时有效)
@@ -72,7 +74,7 @@ MEDIA_DEVICE_ID: str = 'media-device'
 # 独立设备模式下的显示名称 (仅当 MEDIA_INFO_MODE = 'standalone' 时有效)
 MEDIA_DEVICE_SHOW_NAME: str = '正在播放'
 # 是否启用电源状态获取
-BATTERY_INFO_ENABLED: bool = True
+BATTERY_INFO_ENABLED: bool = False
 # --- config end
 
 # ----- Part: Functions
@@ -468,9 +470,14 @@ async def do_update():
         # 发送状态更新
         print(f'Sending update: using = {using}, app_name = "{window}" (idle = {mouse_idle})')
         try:
+            if STATIC_WINDOW_NAME == '':
+                app_name = window
+            else:
+                app_name = STATIC_WINDOW_NAME
+
             resp = await send_status(
                 using=using,
-                app_name=window,
+                app_name=app_name,
                 id=DEVICE_ID,
                 show_name=DEVICE_SHOW_NAME
             )
